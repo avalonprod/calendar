@@ -148,6 +148,13 @@
     /* pointer-events: none; */
     text-align: center;
   }
+
+  .calendar .days .day .event-time {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 15px;
+  }
   
   .calendar .days .day:not(.prev-date, .next-date):hover {
     color: #fff;
@@ -276,6 +283,8 @@
     font-weight: bold;
   }
 
+  
+
   .modal .event-button{
     display: block;
     padding: 5px 10px ;
@@ -322,6 +331,12 @@
   }
   
   @media screen and (max-width: 500px) {
+    .calendar .days .day .event-time {
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      font-size: 10px;
+    }
     .container {
       min-height: 100vh;
       height: 100%;

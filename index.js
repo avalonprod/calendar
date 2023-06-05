@@ -89,6 +89,7 @@ function initCalendar() {
       if (event) {
         days += `<div class="day event">
         <span>${i}</span>
+        <span class="event-time">${obj?.events?.time}</span>
         <span class="event-title" style="background-color: ${obj?.styles?.color};">${obj.events.title}</span>
         </div>`;
       } else {
