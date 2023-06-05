@@ -43,7 +43,7 @@ getEventsByAPI()
 
 
 function initCalendar() {
-  console.log(eventsArr)
+
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
   const prevLastDay = new Date(year, month, 0);
@@ -57,7 +57,7 @@ function initCalendar() {
   let days = "";
 
   for (let x = day; x > 0; x--) {
-    days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
+    days += `<div class="day prev-date"><span>${prevDays - x + 1}</span></div>`;
   }
 
   for (let i = 1; i <= lastDate; i++) {
@@ -81,9 +81,9 @@ function initCalendar() {
       activeDay = i;
       updateEvents(i);
       if (event) {
-        days += `<div class="day today active event">${i}</div>`;
+        days += `<div class="day today active event"><span>${i}</span></div>`;
       } else {
-        days += `<div class="day today active">${i}</div>`;
+        days += `<div class="day today active"><span>${i}</span></div>`;
       }
     } else {
       if (event) {
@@ -92,13 +92,13 @@ function initCalendar() {
         <span class="event-title" style="background-color: ${obj?.styles?.color};">${obj.events.title}</span>
         </div>`;
       } else {
-        days += `<div class="day ">${i}</div>`;
+        days += `<div class="day "><span>${i}</span></div>`;
       }
     }
   }
 
   for (let j = 1; j <= nextDays; j++) {
-    days += `<div class="day next-date">${j}</div>`;
+    days += `<div class="day next-date"><span>${j}</span></div>`;
   }
   daysContainer.innerHTML = days;
   addListner();
@@ -131,7 +131,7 @@ function addListner() {
   const days = document.querySelectorAll(".day");
   days.forEach((day) => {
     day.addEventListener("click", (e) => {
-      
+    
       updateEvents(Number(e.target?.children[0]?.innerHTML));
       activeDay = Number(e.target?.children[0]?.innerHTML);
       days.forEach((day) => {
@@ -171,6 +171,7 @@ function addListner() {
 }
 
 function updateEvents(date) {
+
   let events = "";
   eventsArr.forEach((event) => {
     if (
@@ -178,18 +179,21 @@ function updateEvents(date) {
       month + 1 === event.month &&
       year === event.year
     ) {
-      
+     console.log("cliked")
       modal.classList.add('active')
       events += `
       <div class="modal-body">
         <p class="event-title">${event.events.title}</p>
-        <p class="event-descr">${event.events.descr}</p>
         <p class="event-time">${event.events.time}</p>
         <p class="event-date">${event.month}.${event.day}.${event.year}</p>
+        <p class="event-descr">${event.events.descr}</p>
         <a href="${event.events.buttonHref}" class="event-button">button</a>
       </div>`;
     }
+    console.log(`${date} + ${month} + ${year}  == ${event.day} + ${event.month} + ${event.year}`)
+
   });
+
   if (events === "") {
     events = `<div class="no-event">
             <h3>No Events</h3>
@@ -231,4 +235,5 @@ const modalClose = document.querySelector('.close')
 
 modalClose.addEventListener('click', ()=>{
   modal.classList.remove('active')
+  
 })
