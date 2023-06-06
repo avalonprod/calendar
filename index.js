@@ -31,10 +31,10 @@ let eventsArr = [
 
 ];
 
-
+const _URL = 'https://script.google.com/macros/s/AKfycbztGptm_QFapElgkuNVvOFWyiCwRraOYMxnrSfdJHSVd4WTNFtKRSa8vj1ip3q-LIzp/exec'
 
 async function getEventsByAPI() {
-  await fetch("https://script.google.com/macros/s/AKfycbxtO4TBd_tfl69EY9YTO8ucAak4Ex8uSwqiDLQxw4SrH8unR81h1hovFBH6bSPH_BU/exec")
+  await fetch(_URL)
     .then(res => res.json())
     .then(events => eventsArr = events)
     initCalendar()
@@ -73,15 +73,22 @@ function initCalendar() {
         obj = eventObj
       }
     });
+    console.log(obj.events)
     if (
       i === new Date().getDate() &&
       year === new Date().getFullYear() &&
       month === new Date().getMonth()
     ) {
       activeDay = i;
-      updateEvents(i);
       if (event) {
-        days += `<div class="day today active event"><span>${i}</span></div>`;
+        days += `<div class="day today active event">
+        <span>${i}</span>
+        <div class="events-title-wrapper">
+        ${obj.events.map(item=>{
+          return `<span class="event-title"><span style="background-color: ${item.styles.color};"></span><p>${item.title}</p></span>`
+         }).join('') }
+        </div>
+        </div>`;
       } else {
         days += `<div class="day today active"><span>${i}</span></div>`;
       }
@@ -89,8 +96,11 @@ function initCalendar() {
       if (event) {
         days += `<div class="day event">
         <span>${i}</span>
-        <span class="event-time">${obj?.events?.time}</span>
-        <span class="event-title" style="background-color: ${obj?.styles?.color};">${obj.events.title}</span>
+        <div class="events-title-wrapper">
+        ${obj.events.map(item=>{
+          return `<span class="event-title"><span style="background-color: ${item.styles.color};"></span><p>${item.title}</p></span>`
+         }).join('') }
+        </div>
         </div>`;
       } else {
         days += `<div class="day "><span>${i}</span></div>`;
@@ -182,14 +192,16 @@ function updateEvents(date) {
     ) {
      console.log("cliked")
       modal.classList.add('active')
-      events += `
-      <div class="modal-body">
-        <p class="event-title">${event.events.title}</p>
-        <p class="event-time">${event.events.time}</p>
-        <p class="event-date">${event.month}.${event.day}.${event.year}</p>
-        <p class="event-descr">${event.events.descr}</p>
-        <a href="${event.events.buttonHref}" class="event-button">button</a>
-      </div>`;
+      event.events.map(item=>{
+        return events += `
+        <div class="modal-body">
+          <p class="event-title">${item.title}</p>
+          <p class="event-time">${item.time}</p>
+          <p class="event-date">${event.month}.${event.day}.${event.year}</p>
+          <p class="event-descr">${item.descr}</p>
+          <a href="${item.buttonHref}" class="event-button">button</a>
+        </div>`;
+      })
     }
     console.log(`${date} + ${month} + ${year}  == ${event.day} + ${event.month} + ${event.year}`)
 
