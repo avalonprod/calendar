@@ -31,7 +31,7 @@ let eventsArr = [
 
 ];
 
-const _URL = 'https://script.google.com/macros/s/AKfycbztGptm_QFapElgkuNVvOFWyiCwRraOYMxnrSfdJHSVd4WTNFtKRSa8vj1ip3q-LIzp/exec'
+const _URL = 'https://script.google.com/macros/s/AKfycbyQhnGsY3Zzu7PYhjprFjNnD8U9iRQWqcZ4qa3lnHe15t5gVM1efCsb_4CdjmYw6-9x/exec'
 
 async function getEventsByAPI() {
   await fetch(_URL)
